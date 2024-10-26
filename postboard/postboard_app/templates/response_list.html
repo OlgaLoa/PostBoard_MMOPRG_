@@ -1,0 +1,46 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+
+{% endblock title %}
+
+{% block content %}
+<h1>Current responses:</h1>
+
+<!--# Добавляем форму, которая объединяет набор полей, которые будут отправляться в запросе-->
+<form action="" method="get">
+{{ filterset.form.as_p }}
+<input type="submit" value="Найти" />
+</form>
+
+
+
+
+{% if response_list %}
+
+<div style="text-align: left;">
+
+               {% for one_response in response_list %} <!-- данные из views -->
+<ul>
+               <li> <td>{{ one_response.id}}.{{ one_response.author_of_the_response}}</td> </li>
+               <li> <td>{{ one_response.post_of_the_response|truncatechars:30}}</td> </li>
+               <li> <td>{{ one_response.text_of_the_response}}</td> </li>
+
+
+
+               <td><a href="{% url 'response_delete' one_response.id %}">Delete response</a></td>
+    {% if not one_response.response_accepted %}
+               <td><a href="{% url 'response_accept' one_response.id %}">Accept response</a></td>
+    {% endif %}
+</ul>
+           {% endfor %}
+</div>
+{% else %}
+       <!-- Если новостей нет, то говорим, что новостей нет -->
+       <h2>No current responses!</h2>
+{% endif %}
+
+
+
+<footer> <i><a href="{% url 'post_create'%}">Create your own post</a></i></footer>
+{% endblock content%}

@@ -1,0 +1,42 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+
+{% endblock title %}
+
+
+{% block content %}
+<h1>Current posts:</h1>
+{% if post_list %}
+
+<div style="text-align: left;">
+
+           {% for one_post in post_list %} <!-- данные из views -->
+
+               <!-- Не забываем, что переменные в шаблоне ничем не отличаются
+                от переменных в Python. Здесь также можно получать доступ к
+                полям объекта модели. Например, здесь мы выводим имя,
+                в следующем столбце описание, и т.д.  -->
+               <td>{{ one_post.id}}.{{ one_post.category_of_the_post}}</td><br>
+
+               <td><a href="{% url 'post_detail' one_post.id %}">See the post</a></td><br>
+
+               <td>{{ one_post.author_of_the_post }}:{{ one_post.title_of_the_post}}</td><br>
+               <td>{{ one_post.text_of_the_post|safe }}</td>
+               <td><a href="{% url 'post_update' one_post.id %}">Update(only for the author)</a></td><br>
+               <td><a href="{% url 'response_create' one_post.id %}">Create your response</a></td><br><br><br>
+
+
+<!--               <td><a href="{% url 'post_update' one_post.id %}">Upload</a></td>-->
+
+           {% endfor %}
+</div>
+{% else %}
+       <!-- Если новостей нет, то говорим, что новостей нет -->
+       <h2>No current posts!</h2>
+{% endif %}
+
+
+
+<footer> <i><a href="{% url 'post_create'%}">Create your own post</a></i></footer>
+{% endblock content%}
