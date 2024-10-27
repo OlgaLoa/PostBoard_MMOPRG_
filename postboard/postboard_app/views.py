@@ -98,7 +98,7 @@ class AuthorResponseList(LoginRequiredMixin, ListView):
         queryset = Response.objects.filter(post_of_the_response__author_of_the_post=self.request.user)
         # Сохраняем нашу фильтрацию в объекте класса,
         # чтобы потом добавить в контекст и использовать в шаблоне.
-        self.filterset = PostOfResponseFilter(self.request.GET, queryset)
+        self.filterset = PostOfResponseFilter(self.request.GET, queryset, request=self.request.user)  #request=self.request.user для фильтрации по постам АВТОРА
         # Возвращаем из функции отфильтрованный список товаров
         return self.filterset.qs
         return queryset
@@ -153,3 +153,5 @@ def subscriptions(request):#функция, кот считает подписк
 #Она возвращает объект HttpResponse данного шаблона, отображенный в данном контексте
 # exists() Возвращает True, если QuerySet содержит какие-либо результаты, и False, если нет.
 # Ссылка на столбцы из внешнего набора queryset class OuterRef(field)[исходныйкод]
+
+

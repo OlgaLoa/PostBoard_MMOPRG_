@@ -29,11 +29,16 @@
     <body>
 
     <td>Hello! {{user.username}}</td><br>
- <td><a href="{% url 'registration' %}">Registration</a></td><br>
- <td><a href="{% url 'login' %}">Login</a></td><br>
- <td><a href="{% url 'logout' %}">Logout</a></td><br>
- <td><a href="{% url 'subscriptions' %}">Subscriptions</a></td><br>
- <td><a href="{% url 'response_list' %}">Response_list</a></td><br>
+
+    {% if user.is_authenticated %}
+        <td><a href="{% url 'logout' %}">Logout</a></td><br>
+    {% else %}
+     <td><a href="{% url 'registration' %}">Registration</a></td>  | <td><a href="{% url 'login' %}">Login</a></td><br>
+    {% endif %}
+
+    <td><a href="{% url 'post_list' %}">Posts</a></td><br>
+    <td><a href="{% url 'subscriptions' %}">Subscriptions</a></td><br>
+    <td><a href="{% url 'response_list' %}">Response_list</a></td><br>
 
 
 

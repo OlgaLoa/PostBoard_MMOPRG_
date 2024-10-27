@@ -64,9 +64,9 @@ def signal_to_author_of_response_about_accept(sender, instance, created = False,
 @receiver(post_init, sender=Post)
 def signal_to_the_subscriber_of_category(sender, instance, created = True, **kwargs): # created = True те был создан экземпляр
     if created:  # проверяем был ли создан новый экземпляр
-        #получаем категорию созданного поста
-        category = instance.category_of_the_post_id #category = Category.objects.filter(post__category_of_the_post__pk=instance.pk) (!!!НЕ РАБОТАЕТ)
-        subscribers_of_the_category = User.objects.filter(subscriptions__category=category)
+        category_id = instance.category_of_the_post_id #получаем id категории созданного поста
+        #Если вы получаете идентификатор категории, тогда и подписчиков получайте по идентификатору категории
+        subscribers_of_the_category = User.objects.filter(subscriptions__category_id=category_id)
 
         emails = subscribers_of_the_category.values_list('email', flat=True) #flat=True to return a QuerySet of single values instead of 1-tuples:
 
